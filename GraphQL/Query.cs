@@ -28,8 +28,15 @@ public class Query
     public async Task<IEnumerable<Book>> GetAllBooks()
     {
         await _connection.OpenAsync();
-        var books = await _connection.QueryAsync<Book>("select * from book1 b inner join authors a on b.author_id = a.id");
-        
+        var books = await _connection.QueryAsync<Book, Author, Book>(
+            "select * from book1 b inner join authors a on b.author_id = a.id",
+            (book, author) =>
+            {
+                book.Author = author; 
+                return book;
+            },
+            splitOn: "id" 
+        );
         return books;
     }
 
