@@ -1,0 +1,7 @@
+﻿services:
+  st-graphql:
+    image: st-graphql
+    build:
+      context: .
+      dockerfile: Dockerfile
+
